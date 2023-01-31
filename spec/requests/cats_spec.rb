@@ -49,7 +49,7 @@ RSpec.describe "Cats", type: :request do
       cat_params = {
        cat: {
         age: 5,
-        enjoys: 'climbing',
+        enjoys: 'climbing around',
         image: 'https://upload.wikimedia.org/wikipedia/commons/1/1f/Cat_climbing_tree%2C_Uchimaki_Park.jpg'
       }
     }
