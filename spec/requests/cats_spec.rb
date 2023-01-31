@@ -4,10 +4,10 @@ RSpec.describe "Cats", type: :request do
   describe "GET /index" do
     it "returns all the cats" do
       Cat.create(
-        name: 'Ryan',
-        age: 3,
-        enjoys: 'sleeping',
-        image: 'https://live.staticflickr.com/3587/3471300822_c0b9996897_b.jpg'
+        name: 'Steven',
+        age: 5,
+        enjoys: 'climbing around',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/1/1f/Cat_climbing_tree%2C_Uchimaki_Park.jpg'
 
       )
 
@@ -26,7 +26,7 @@ RSpec.describe "Cats", type: :request do
        cat: {
         name: 'Steven',
         age: 5,
-        enjoys: 'climbing',
+        enjoys: 'climbing around',
         image: 'https://upload.wikimedia.org/wikipedia/commons/1/1f/Cat_climbing_tree%2C_Uchimaki_Park.jpg'
       }
     }
@@ -40,8 +40,28 @@ RSpec.describe "Cats", type: :request do
     cat = Cat.first
     p "cat:", cat
     expect(cat.name).to eq('Steven')
-    expect(cat.enjoys).to eq('climbing')
+    expect(cat.enjoys).to eq('climbing around')
 
     end
   end
+
+    it "will not create a cat missing its name" do
+      cat_params = {
+       cat: {
+        age: 5,
+        enjoys: 'climbing around',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/1/1f/Cat_climbing_tree%2C_Uchimaki_Park.jpg'
+      }
+    }
+    #request for create endpoint
+    post '/cats', params: cat_params
+
+    #status code
+    expect(response).to have_http_status(422)
+    
+    #payload
+    cat = JSON.parse(response.body)
+    p "cat:", cat
+    expect(cat['name']).to include("can't be blank")
+    end
 end
